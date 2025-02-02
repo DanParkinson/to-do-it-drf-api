@@ -8,7 +8,9 @@ Here you can follow all of the steps to build your environment to produce this w
 2. Click **use this template** and **create a new repository**.
 3. Clone the Repository.
 
-## Backend 
+---
+
+## Backend
 
 1. Install Django.
 
@@ -52,6 +54,8 @@ if os.path.exists('env.py'):
 python manage.py runserver
 ```
 
+---
+
 ### Creating Profiles app
 
 1. Create your app and add to settings.py in installed apps:
@@ -85,3 +89,42 @@ python manage.py createsuperuser
 python3 manage.py runserver
 ```
 
+6. Create dependincies file:
+
+```python
+pip freeze > requirements.txt
+```
+
+7. add, commit, and push your code to the main branch
+
+---
+
+### Django Rest Framework
+
+1. Install Django Rest Framework.
+
+```python
+pip install djangorestframework==3.12.4
+```
+
+2. Add to installed apps **rest_framework** in settings.py
+
+```python
+INSTALLED_APPS = [
+'django.contrib.admin',
+'django.contrib.auth',
+'django.contrib.contenttypes',
+'django.contrib.sessions',
+'django.contrib.messages',
+'django.contrib.staticfiles',
+'rest_framework',
+
+'profiles',
+]
+```
+
+3. Update dependincies file:
+
+```python
+pip freeze > requirements.txt
+```
