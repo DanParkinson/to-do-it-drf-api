@@ -147,7 +147,7 @@ Entity Relationship Diagrams help to visualize database architecture before crea
 | Field              | Type                 | Constraints                                | Description                                      |
 |--------------------|----------------------|--------------------------------------------|--------------------------------------------------|
 | `id`               | AutoField            | Primary Key, Auto-increment                | Unique identifier for each profile.              |
-| `user`             | OneToOneField(User)  | Foreign Key (User), Required, Unique       | Links the profile to a single user.              |
+| `owner`             | OneToOneField(User)  | Foreign Key (User), Required, Unique       | Links the profile to a single user.              |
 | `name`             | CharField(255)       | Optional                                   | User’s full name.                                |
 | `created_at`       | DateTimeField        | Auto-generated                             | Timestamp when the profile was created.          |
 | `updated_at`       | DateTimeField        | Auto-updated                               | Timestamp when the profile was last modified.    |
@@ -158,7 +158,7 @@ Entity Relationship Diagrams help to visualize database architecture before crea
 |---------------|--------------------|--------------------------------------------|--------------------------------------------------|
 | `id`          | AutoField          | Primary Key, Auto-increment                | Unique identifier for each category.             |
 | `name`        | CharField(255)     | Required                                   | Name of the category (e.g., Work, Personal).     |
-| `user`        | ForeignKey(User)   | Foreign Key (User), Required               | Links category to the user who created it.       |
+| `owner`        | ForeignKey(User)   | Foreign Key (User), Required               | Links category to the user who created it.       |
 | `created_at`  | DateTimeField      | Auto-generated                             | Timestamp when the category was created.         |
 
 ### **Task Model**
@@ -173,7 +173,7 @@ Entity Relationship Diagrams help to visualize database architecture before crea
 | `due_date`    | DateField             | Optional                                   | Deadline for task completion.                                   |
 | `created_at`  | DateTimeField         | Auto-generated                             | Timestamp when the task was created.                            |
 | `updated_at`  | DateTimeField         | Auto-updated                               | Timestamp when the task was last modified.                      |
-| `user`        | ForeignKey(User)      | Foreign Key (User), Required               | Links task to the user who created it.                          |
+| `owner`        | ForeignKey(User)      | Foreign Key (User), Required               | Links task to the user who created it.                          |
 | `category`    | ForeignKey(Category)  | Foreign Key (Category), Optional           | Links task to a specific category. Can be null.                 |
 
 ### Relationships
