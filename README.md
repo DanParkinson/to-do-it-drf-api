@@ -1,131 +1,297 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# To-Do-It
 
-Welcome USER_NAME,
+## INTRODUCTION
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
+The **To-Do-It API** is a backend service built with **Django REST Framework (DRF)** that powers a task management system. This API allows users to create, update, delete, and organize tasks efficiently. With built-in authentication, categorization, and filtering, it provides a robust solution for personal and collaborative task management.
 
-You can safely delete this README.md file or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use. Some of this information has been updated since the video content was created. The last update to this file was: **June 18, 2024**
+### Key Features
 
-## Gitpod Reminders
+| Feature                      | Description                                                                     |
+|------------------------------|---------------------------------------------------------------------------------|
+| **User Authentication**      | Secure user registration, login, and token-based authentication.                |
+| **Task Management**          | Create, update, delete, and track tasks.                                        |
+| **Task Status & Due Dates**  | Mark tasks as pending, in-progress, or completed, with optional due dates.      |
+| **Task Categorization**      | Organize tasks using categories for better management.                          |
+| **Filtering & Queries**      | Retrieve tasks based on status, category, or due date.                          |
+| **RESTful API Design**       | Follows RESTful principles for seamless integration with frontend applications. |
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+This API serves as the backend for the **To-Do-It** application, which will be used alongside a frontend built with **React and Bootstrap**.
 
-`python3 -m http.server`
+For further details, refer to the **API Documentation** and **Installation Workflow** sections.
 
-A blue button should appear to click: _Make Public_,
+## Table of Contents
 
-Another blue button should appear to click: _Open Browser_.
+- [Introduction](#introduction)
+- [API Documentation](#api-documentation)
+    - [Authentication Endpoints](#authentication-endpoints)
+    - [Task Endpoints](#tasks-endpoints)
+    - [Category Endpoints](#categories-endpoints)
+    - [Filters and Queries](#filters-and-queries)
+    - [Response Format](#response-format)
+- [Database Design](#database-design)
+    - [Model Usage](#model-usage)
+    - [User Model](#user-model)
+    - [Profile Model](#profile-model)
+    - [Category Model](#category-model)
+    - [Task Model](#task-model)
+    - [Relationships](#relationships)
+- [Frameworks, Libraries & Tools Used](#frameworks-libraries--tools-used)
+    - [Backend Frameworks](#backend-frameworks)
+    - [Authentication & Security](#authentication--security)
+    - [Database & Storage](#database--storage)
+    - [Task Management & Filtering](#task-management--filtering)
+    - [Middleware & Server](#middleware--server)
+    - [Other Dependencies](#other-dependencies)
+- [Prerequisites](#prerequisites)
+    - [Software Requirements](#1-software-requirements)
+    - [Python Dependencies](#2-python-dependencies)
+    - [API Keys and Environment Variables](#3-api-keys-and-environment-variables)
+    - [Development Tools](#4-development-tools)
+    - [Browser Compatibility](#5-browser-compatibility)
+- [Installation Workflow](installation.md)
+- [Development Workflow](#development-workflow)
+- [Testing Workflow](testing.md)
+- [Deployment](deployment.md)
+- [Known Issues](#known-issues)
+- [Future Enhancements](#future-enhancements)
+- [Credits](#credits)
 
-To run a backend Python file, type `python3 app.py` if your Python file is named `app.py`, of course.
+--
 
-A blue button should appear to click: _Make Public_,
+## API DOCUMENTATION
 
-Another blue button should appear to click: _Open Browser_.
+The **To-Do-It API** provides a structured and efficient way to manage tasks. It is built using Django REST Framework (DRF) and follows RESTful API principles. This API allows users to authenticate, create and manage tasks, assign tasks to users, and filter them based on different criteria.
 
-By Default, Gitpod gives you superuser security privileges. Therefore, you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
+The API is structured into multiple endpoints for different functionalities:
 
-To log into the Heroku toolbelt CLI:
+### Authentication Endpoints
 
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In Gitpod, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
+| Method | Endpoint           | Description                  |
+|--------|--------------------|------------------------------|
+| POST   | `/auth/signup/`    | Register a new user          |
+| POST   | `/auth/signin/`    | Log in and receive JWT token |
+| POST   | `/auth/signout/`   | Log out the current user     |
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you, so do not share it. If you accidentally make it public, you can create a new one with _Regenerate API Key_.
+### Tasks Endpoints
 
-### Connecting your Mongo database
+| Method  | Endpoint       | Description            |
+|---------|----------------|------------------------|
+| GET     | `/tasks/`      | Retrieve all tasks     |
+| POST    | `/tasks/`      | Create a new task      |
+| GET     | `/tasks/{id}/` | Retrieve task details  |
+| PUT     | `/tasks/{id}/` | Update a task          |
+| DELETE  | `/tasks/{id}/` | Delete a task          |
 
-- **Connect to Mongo CLI on a IDE**
-- navigate to your MongoDB Clusters Sandbox
-- click **"Connect"** button
-- select **"Connect with the MongoDB shell"**
-- select **"I have the mongo shell installed"**
-- choose **mongosh (2.0 or later)** for : **"Select your mongo shell version"**
-- choose option: **"Run your connection string in your command line"**
-- in the terminal, paste the copied code `mongo "mongodb+srv://<CLUSTER-NAME>.mongodb.net/<DBname>" --apiVersion 1 --username <USERNAME>`
-  - replace all `<angle-bracket>` keys with your own data
-- enter password _(will not echo **\*\*\*\*** on screen)_
+### Categories Endpoints
 
-------
+| Method  | Endpoint                  | Description                              |
+|---------|---------------------------|------------------------------------------|
+| GET     | `/api/categories/`        | Retrieve all categories for the user.    |
+| POST    | `/api/categories/`        | Create a new category.                   |
+| GET     | `/api/categories/<id>/`   | Retrieve details of a specific category. |
+| PUT     | `/api/categories/<id>/`   | Update a category.                       |
+| DELETE  | `/api/categories/<id>/`   | Delete a category.                       |
 
-## Release History
+### Filters and Queries
 
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
+| Filter      | Description                   | Example                              |
+|-------------|------------------------------|---------------------------------------|
+| `?status`   | Filter tasks by status.      | `/api/tasks/?status=completed`        |
+| `?priority` | Filter tasks by priority.    | `/api/tasks/?priority=high`           |
+| `?category` | Filter tasks by category.    | `/api/tasks/?category=work`           |
+| `?due_date` | Filter tasks by due date.    | `/api/tasks/?due_date=2025-01-15`     |
 
-**June 18, 2024,** Add Mongo back into template
+### Response Format
 
-**June 14, 2024,** Temporarily remove Mongo until the key issue is resolved
-
-**May 28 2024:** Fix Mongo and Links installs
-
-**April 26 2024:** Update node version to 16
-
-**September 20 2023:** Update Python version to 3.9.17.
-
-**September 1 2021:** Remove `PGHOSTADDR` environment variable.
-
-**July 19 2021:** Remove `font_fix` script now that the terminal font issue is fixed.
-
-**July 2 2021:** Remove extensions that are not available in Open VSX.
-
-**June 30 2021:** Combined the P4 and P5 templates into one file, added the uptime script. See the FAQ at the end of this file.
-
-**June 10 2021:** Added: `font_fix` script and alias to fix the Terminal font issue
-
-**May 10 2021:** Added `heroku_config` script to allow Heroku API key to be stored as an environment variable.
-
-**April 7 2021:** Upgraded the template for VS Code instead of Theia.
-
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
-
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
-
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
-
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
-
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
-
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
-
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
-
-------
-
-## FAQ about the uptime script
-
-**Why have you added this script?**
-
-It will help us to calculate how many running workspaces there are at any one time, which greatly helps us with cost and capacity planning. It will help us decide on the future direction of our cloud-based IDE strategy.
-
-**How will this affect me?**
-
-For everyday usage of Gitpod, it doesn’t have any effect at all. The script only captures the following data:
-
-- An ID that is randomly generated each time the workspace is started.
-- The current date and time
-- The workspace status of “started” or “running”, which is sent every 5 minutes.
-
-It is not possible for us or anyone else to trace the random ID back to an individual, and no personal data is being captured. It will not slow down the workspace or affect your work.
-
-**So….?**
-
-We want to tell you this so that we are being completely transparent about the data we collect and what we do with it.
-
-**Can I opt out?**
-
-Yes, you can. Since no personally identifiable information is being captured, we'd appreciate it if you let the script run; however if you are unhappy with the idea, simply run the following commands from the terminal window after creating the workspace, and this will remove the uptime script:
+All API responses are in JSON format. Example response for retrieving tasks:
+```json
+{
+    "id": 1,
+    "title": "Complete project",
+    "description": "Finalize the API documentation",
+    "status": "in_progress",
+    "priority": "high",
+    "category": {
+        "id": 2,
+        "name": "Work"
+    },
+    "due_date": "01 Feb 2026",
+    "created_at": "30 Jan 2026",
+    "updated_at": "31 Jan 2026",
+}
 
 ```
-pkill uptime.sh
-rm .vscode/uptime.sh
-```
 
-**Anything more?**
+## Database Design
 
-Yes! We'd strongly encourage you to look at the source code of the `uptime.sh` file so that you know what it's doing. As future software developers, it will be great practice to see how these shell scripts work.
+Entity Relationship Diagrams help to visualize database architecture before creating models in Django. Understanding the relationships between different tables can save time recoding later in the project.
+
+### Model Usage
+
+| Model         | Usage                                                                                                          |
+|---------------|----------------------------------------------------------------------------------------------------------------|
+| **User**      | Django’s built-in authentication system, managing users and their permissions.                                 |
+| **Profile**   | Extends the User model to store additional user information like bio and location.                             |
+| **Category**  | Groups tasks for better organization, allowing users to categorize their tasks (e.g., Work, Personal).         |
+| **Task**      | The central model of the app, representing individual tasks with details like status, priority, and deadlines. |
+
+### **User Model**
+
+| Field               | Type                   | Constraints                   | Description                                              |
+|---------------------|------------------------|-------------------------------|----------------------------------------------------------|
+| `id`                | AutoField              | Primary Key, Auto-increment   | Unique identifier for each user.                         |
+| *(default fields)*  | *(Provided by Django)* |                               | Default fields like `username`, `email`, and `password`. |
+
+### **Profile Model**
+
+| Field              | Type                 | Constraints                                | Description                                      |
+|--------------------|----------------------|--------------------------------------------|--------------------------------------------------|
+| `id`               | AutoField            | Primary Key, Auto-increment                | Unique identifier for each profile.              |
+| `user`             | OneToOneField(User)  | Foreign Key (User), Required, Unique       | Links the profile to a single user.              |
+| `name`             | CharField(255)       | Optional                                   | User’s full name.                                |
+| `created_at`       | DateTimeField        | Auto-generated                             | Timestamp when the profile was created.          |
+| `updated_at`       | DateTimeField        | Auto-updated                               | Timestamp when the profile was last modified.    |
+
+### **Category Model**
+
+| Field         | Type               | Constraints                                | Description                                      |
+|---------------|--------------------|--------------------------------------------|--------------------------------------------------|
+| `id`          | AutoField          | Primary Key, Auto-increment                | Unique identifier for each category.             |
+| `name`        | CharField(255)     | Required                                   | Name of the category (e.g., Work, Personal).     |
+| `user`        | ForeignKey(User)   | Foreign Key (User), Required               | Links category to the user who created it.       |
+| `created_at`  | DateTimeField      | Auto-generated                             | Timestamp when the category was created.         |
+
+### **Task Model**
+
+| Field         | Type                  | Constraints                                | Description                                                     |
+|---------------|-----------------------|--------------------------------------------|-----------------------------------------------------------------|
+| `id`          | AutoField             | Primary Key, Auto-increment                | Unique identifier for each task.                                |
+| `title`       | CharField(255)        | Required                                   | Short title of the task.                                        |
+| `description` | TextField             | Optional                                   | Detailed description of the task.                               |
+| `status`      | CharField(choices)    | Required                                   | Task status (`Pending`, `In Progress`, `Completed`, `Overdue`). |
+| `priority`    | CharField(choices)    | Required                                   | Priority level (`Low`, `Medium`, `High`).                       |
+| `due_date`    | DateField             | Optional                                   | Deadline for task completion.                                   |
+| `created_at`  | DateTimeField         | Auto-generated                             | Timestamp when the task was created.                            |
+| `updated_at`  | DateTimeField         | Auto-updated                               | Timestamp when the task was last modified.                      |
+| `user`        | ForeignKey(User)      | Foreign Key (User), Required               | Links task to the user who created it.                          |
+| `category`    | ForeignKey(Category)  | Foreign Key (Category), Optional           | Links task to a specific category. Can be null.                 |
+
+### Relationships
+- **Users** create **tasks** and categorize them using **categories**.
+- **Profiles** store additional user-related information.
+- **Tasks** belong to **categories**, which help users **organize and filter** them efficiently.
+
+This **structured database design** ensures **data integrity, scalability, and optimized task management** within the To-Do-It API.
 
 ---
 
-Happy coding!
+## Frameworks, Libraries & Tools Used
+
+Below is a list of the frameworks, libraries, and tools used in the **To-Do-It API**. Also see requirements.txt.
+
+### **Backend Frameworks**
+
+| Name                            | Version | Description                                                   |
+|---------------------------------|---------|---------------------------------------------------------------|
+| **Django**                      | 3.2.4   | High-level Python web framework for rapid development.        |
+| **Django REST Framework (DRF)** | 3.12.4  | Toolkit for building Web APIs in Django.                      |
+| **dj-rest-auth**                | 2.1.9   | Provides authentication endpoints, including JWT integration. |
+
+### **Authentication & Security**
+
+| Name                              | Version | Description                                  |
+|-----------------------------------|---------|----------------------------------------------|
+| **djangorestframework_simplejwt** | 5.4.0   | JSON Web Token (JWT) authentication for DRF. |
+| **oauthlib**                      | 3.2.2   | Library for OAuth 1 and OAuth 2 protocols.   |
+| **requests-oauthlib**             | 2.0.0   | OAuth support for `requests` library.        |
+
+### **Database & Storage**
+
+| Name                           | Version | Description                                                  |
+|--------------------------------|---------|--------------------------------------------------------------|
+| **dj-database-url**            | 0.5.0   | Enables configuration of the database from a URL.            |
+| **psycopg2**                   | 2.9.10  | PostgreSQL database adapter for Python.                      |
+| **sqlparse**                   | 0.5.3   | SQL parsing library used by Django.                          |
+
+### **Task Management & Filtering**
+| Name                           | Version | Description                                  |
+|--------------------------------|---------|----------------------------------------------|
+| **django-filter**              | 24.3    | Filtering support for Django models.         |
+| **django-cron**                | 0.6.0   | Allows scheduled background tasks in Django. |
+
+### **Middleware & Server**
+| Name                           | Version | Description                                                   |
+|--------------------------------|---------|---------------------------------------------------------------|
+| **django-cors-headers**        | 4.6.0   | Middleware for handling Cross-Origin Resource Sharing (CORS). |
+| **gunicorn**                   | 23.0.0  | WSGI server for deploying Django applications.                |
+
+### **Other Dependencies**
+| Name                           | Version | Description                                          |
+|--------------------------------|---------|------------------------------------------------------|
+| **asgiref**                    | 3.8.1   | ASGI utilities for Django async support.             |
+| **pytz**                       | 2024.2  | Time zone library for Python.                        |
+| **setuptools**                 | 75.8.0  | Tool for packaging and distributing Python projects. |
+
+---
+
+## Prerequisites
+
+Before running this project, ensure you have the following installed on your system:
+
+### **1. Software Requirements**
+- **Python 3.11.6**: Required for running Django and related dependencies.
+- **Node.js 16+**: Needed for React and frontend dependencies.
+- **PostgreSQL**: Database system for production (optional during development).
+- **Git**: For version control and managing the project repository.
+
+### **2. Python Dependencies**
+Install the following Python packages (you can also use the provided `requirements.txt` file):
+- Django
+- Django Rest Framework (DRF)
+- Django Allauth
+- Gunicorn
+- Psycopg2
+- Whitenoise
+
+### **3. API Keys and Environment Variables**
+You’ll need to configure the following environment variables in a `.env` file:
+
+- `SECRET_KEY`: Django secret key.
+- `DEBUG`: Set to `True` during development and `False` in production.
+- `DATABASE_URL`: Connection string for the PostgreSQL database (e.g., `postgres://USER:PASSWORD@HOST:PORT/DB_NAME`).
+
+### **4. Development Tools**
+Make sure you have the following tools installed:
+- **Visual Studio Code**: Recommended IDE for development.
+- **Postman**: For testing API endpoints.
+- **GitHub Desktop** *(optional)*: For managing Git repositories with a GUI.
+
+### **5. Browser Compatibility**
+- The app is optimized for modern browsers, including:
+  - Google Chrome
+  - Mozilla Firefox
+  - Microsoft Edge
+
+---
+
+## Installation Workflow
+
+This process has been documented separately in [INSTALLATIOM.md](INSTALLATION.md)
+
+## Development Workflow
+
+This process has been documented separately in [AGILE.md](AGILE.md)
+
+## Testing Workflow
+
+This process has been documented separately in [TESTING.md](TESTING.md)
+
+## Deployment
+
+This process has been documented separately in [DEPLOYMENT.md](DEPLOYMENT.md)
+
+## Known Issues
+
+## Future Enhancements
+
+## Credits
