@@ -21,8 +21,8 @@ The first sprint focuses on setting up the repository and documenting the projec
 In this sprint, the backend will be set up using Django. Key objectives include configuring the project, installing necessary tools, and building the `Profiles` model. Django Rest Framework will be added to handle API endpoints for user and task management.
 
 ### **Tasks**
-- [ ] Install Django.
-- [ ] Create the Django project.
+- [x] Install Django.
+- [x] Create the Django project.
 - [ ] Run the server and append allowed hosts to configuration.
 - [ ] Create the `Profiles` app.
 - [] Add Django Rest Framework (DRF).
