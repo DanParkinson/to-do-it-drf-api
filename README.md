@@ -69,20 +69,20 @@ The API is structured into multiple endpoints for different functionalities:
 | Method  | Endpoint          | Description            | view name |
 |---------|-------------------|------------------------|-----------|
 | GET     | `/profiles/`      | List all profiles      |  LIST     |
-| POST    | `/profiles/`      | Create a new profile   |  LSIT     |
+| POST    | `/profiles/`      | Create a new profile   |  LIST     |
 | GET     | `/profiles/{id}/` | Retrieve profile by id |  DETAIL   |
 | PUT     | `/profiles/{id}/` | Update a profile by id |  DETAIL   |
 | DELETE  | `/profiles/{id}/` | Delete a profile by id |  DETAIL   |
 
 ### Tasks Endpoints
 
-| Method  | Endpoint       | Description            |
-|---------|----------------|------------------------|
-| GET     | `/tasks/`      | Retrieve all tasks     |
-| POST    | `/tasks/`      | Create a new task      |
-| GET     | `/tasks/{id}/` | Retrieve task details  |
-| PUT     | `/tasks/{id}/` | Update a task          |
-| DELETE  | `/tasks/{id}/` | Delete a task          |
+| Method  | Endpoint       | Description            | view name |
+|---------|----------------|------------------------|-----------|
+| GET     | `/tasks/`      | Retrieve all tasks     |  LIST     |
+| POST    | `/tasks/`      | Create a new task      |  LIST     |
+| GET     | `/tasks/{id}/` | Retrieve task details  |  DETAIL   |
+| PUT     | `/tasks/{id}/` | Update a task          |  DETAIL   |
+| DELETE  | `/tasks/{id}/` | Delete a task          |  DETAIL   |
 
 ### Categories Endpoints
 
@@ -109,6 +109,7 @@ All API responses are in JSON format. Example response for retrieving tasks:
 ```json
 {
     "id": 1,
+    "owner": "John Doe",
     "title": "Complete project",
     "description": "Finalize the API documentation",
     "status": "in_progress",
@@ -160,7 +161,7 @@ Entity Relationship Diagrams help to visualize database architecture before crea
 |---------------|--------------------|--------------------------------------------|--------------------------------------------------|
 | `id`          | AutoField          | Primary Key, Auto-increment                | Unique identifier for each category.             |
 | `name`        | CharField(255)     | Required                                   | Name of the category (e.g., Work, Personal).     |
-| `owner`        | ForeignKey(User)   | Foreign Key (User), Required               | Links category to the user who created it.       |
+| `owner`       | ForeignKey(User)   | Foreign Key (User), Required               | Links category to the user who created it.       |
 | `created_at`  | DateTimeField      | Auto-generated                             | Timestamp when the category was created.         |
 
 ### **Task Model**
@@ -168,15 +169,16 @@ Entity Relationship Diagrams help to visualize database architecture before crea
 | Field         | Type                  | Constraints                                | Description                                                     |
 |---------------|-----------------------|--------------------------------------------|-----------------------------------------------------------------|
 | `id`          | AutoField             | Primary Key, Auto-increment                | Unique identifier for each task.                                |
+| `owner`       | ForeignKey(User)      | Foreign Key (User), Required               | Links task to the user who created it.                          |
 | `title`       | CharField(255)        | Required                                   | Short title of the task.                                        |
 | `description` | TextField             | Optional                                   | Detailed description of the task.                               |
+| `category`    | ForeignKey(Category)  | Foreign Key (Category), Optional           | Links task to a specific category. Can be null.                 |
 | `status`      | CharField(choices)    | Required                                   | Task status (`Pending`, `In Progress`, `Completed`, `Overdue`). |
 | `priority`    | CharField(choices)    | Required                                   | Priority level (`Low`, `Medium`, `High`).                       |
 | `due_date`    | DateField             | Optional                                   | Deadline for task completion.                                   |
 | `created_at`  | DateTimeField         | Auto-generated                             | Timestamp when the task was created.                            |
 | `updated_at`  | DateTimeField         | Auto-updated                               | Timestamp when the task was last modified.                      |
-| `owner`        | ForeignKey(User)      | Foreign Key (User), Required               | Links task to the user who created it.                          |
-| `category`    | ForeignKey(Category)  | Foreign Key (Category), Optional           | Links task to a specific category. Can be null.                 |
+
 
 ### Relationships
 - **Users** create **tasks** and categorize them using **categories**.

@@ -18,26 +18,64 @@ The first sprint focuses on setting up the repository and documenting the projec
 
 ## **Sprint 2: Initial Backend Setup**
 
-In this sprint, the backend will be set up using Django. Key objectives include configuring the project, installing necessary tools, and building the `Profiles` model. Django Rest Framework will be added to handle API endpoints for user and task management.
+In this sprint, the backend will be set up using Django, focusing on core functionality for user and task management. Key objectives include configuring the project, installing necessary tools, and building the `Profiles`, `Tasks`, `Categories` models. Django Rest Framework (DRF) will be used to create API endpoints, ensuring proper authentication and authorization. 
 
-### **Tasks**
+Additional features such as task filtering, search functionality, and user authentication using JWT tokens will be implemented. Unit tests will be written to verify that both the `Profiles`, `Tasks`, `Categories` resources function as expected. Finally, preparations will be made for deployment in Sprint 3, including pagination, root route setup, and improved datetime formatting.
+
+
+---
+
+#### **🔹 Project Setup**
 - [x] Install Django.
 - [x] Create the Django project.
-- [x] Run the server and append allowed hosts to configuration.
-- [x] Create the `Profiles` app.
-- [x] Create the `Profiles` model, use Django signals.
 - [x] Add Django Rest Framework (DRF).
-- [x] User authorization for login/logout, update and retrieve profiles.
-- [] Create the `Task` resource.
-- [] Users can create/edit/delete tasks.
-- [] Users can filter by priority/status/due date/category.
-- [] Run tests to check the profile resource works as expected.
-- [] Run tests to check the task resource works as expected.
-- [] Tasks whose due date is in the past will change status to overdue - Will be done at a later date after researching it.
-- [] Create the `Categories` resource.
-- [] Add search function.
-- [] Install Django auth and JWT tokens.
-- [] Prepare for deployment in Sprint 3. Adding pagination and root_route. Datetime fields nicely rendered.
+- [x] Run the server and append allowed hosts to configuration.
+
+#### **🔹 Profiles App**
+- [x] Create the `Profiles` app.
+- [x] Create `Profile` model.
+- [x] Create `ProfileListView`.
+- [x] Create `ProfileSerializer`.
+- [x] Create `Profile` URLs.
+- [x] Create `IsOwnerOrReadOnly` permission in `drf_api.permissions.py`.
+- [x] Create `ProfileDetailView` for update and retrieve.
+- [x] Add Django Rest authentication URLs.
+
+#### **🔹 User Authentication**
+- [x] User authorization for login/logout, update, and retrieve profiles.
+
+#### **🔹 Tasks App**
+- [x] Create the `Tasks` app.
+- [x] Create `Task` model.
+- [x] Create `TaskListView`.
+- [x] Create `TaskSerializer`.
+- [x] Create `Task` URLs.
+- [ ] Create `TaskDetailView` for update, retrieve, and delete.
+
+#### **🔹 Categories App**
+- [ ] Create the `Categories` app.
+- [ ] Create `Category` model.
+- [ ] Create `CategoryListView`.
+- [ ] Create `CategorySerializer`.
+- [ ] Create `Category` URLs.
+- [ ] Create `CategoryDetailView` for update, retrieve, and delete.
+
+#### **🔹 Task Filtering & Functionality**
+- [ ] Users can filter tasks by `priority`, `status`, `due date`, or `category`.
+- [ ] Tasks whose due date is in the past should automatically change status to `overdue` (Research needed before implementation).
+
+#### **🔹 Testing & Features**
+- [ ] Run tests to check that the `Profiles` resource works as expected.
+- [ ] Run tests to check that the `Tasks` resource works as expected.
+- [ ] Run tests to check that the `Categories` resource works as expected.
+- [ ] Run tests to check that filtering and search works as expected.
+- [ ] Add a search function.
+
+#### **🔹 Authentication & Deployment Preparation**
+- [ ] Install Django authentication and JWT tokens.
+- [ ] Prepare for deployment in Sprint 3:
+    - Add pagination.
+    - Add a `root_route`.
 
 ---
 
