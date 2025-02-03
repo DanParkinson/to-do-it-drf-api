@@ -27,7 +27,7 @@ In this sprint, the backend will be set up using Django. Key objectives include 
 - [x] Create the `Profiles` app.
 - [x] Create the `Profiles` model, use Django signals.
 - [x] Add Django Rest Framework (DRF).
-- [] User authorization for login/logout, update, delete profiles.
+- [x] User authorization for login/logout, update and retrieve profiles.
 - [] Create the `Task` resource.
 - [] Users can create/edit/delete tasks.
 - [] Users can filter by priority/status/due date/category.

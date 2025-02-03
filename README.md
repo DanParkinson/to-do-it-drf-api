@@ -64,13 +64,15 @@ The **To-Do-It API** provides a structured and efficient way to manage tasks. It
 
 The API is structured into multiple endpoints for different functionalities:
 
-### Authentication Endpoints
+### Profiles Endpoints
 
-| Method | Endpoint           | Description                  |
-|--------|--------------------|------------------------------|
-| POST   | `/auth/signup/`    | Register a new user          |
-| POST   | `/auth/signin/`    | Log in and receive JWT token |
-| POST   | `/auth/signout/`   | Log out the current user     |
+| Method  | Endpoint          | Description            | view name |
+|---------|-------------------|------------------------|-----------|
+| GET     | `/profiles/`      | List all profiles      |  LIST     |
+| POST    | `/profiles/`      | Create a new profile   |  LSIT     |
+| GET     | `/profiles/{id}/` | Retrieve profile by id |  DETAIL   |
+| PUT     | `/profiles/{id}/` | Update a profile by id |  DETAIL   |
+| DELETE  | `/profiles/{id}/` | Delete a profile by id |  DETAIL   |
 
 ### Tasks Endpoints
 
@@ -84,13 +86,13 @@ The API is structured into multiple endpoints for different functionalities:
 
 ### Categories Endpoints
 
-| Method  | Endpoint                  | Description                              |
-|---------|---------------------------|------------------------------------------|
-| GET     | `/api/categories/`        | Retrieve all categories for the user.    |
-| POST    | `/api/categories/`        | Create a new category.                   |
-| GET     | `/api/categories/<id>/`   | Retrieve details of a specific category. |
-| PUT     | `/api/categories/<id>/`   | Update a category.                       |
-| DELETE  | `/api/categories/<id>/`   | Delete a category.                       |
+| Method  | Endpoint              | Description                              |
+|---------|-----------------------|------------------------------------------|
+| GET     | `/categories/`        | Retrieve all categories for the user.    |
+| POST    | `/categories/`        | Create a new category.                   |
+| GET     | `/categories/<id>/`   | Retrieve details of a specific category. |
+| PUT     | `/categories/<id>/`   | Update a category.                       |
+| DELETE  | `/categories/<id>/`   | Delete a category.                       |
 
 ### Filters and Queries
 
