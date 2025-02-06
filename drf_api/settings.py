@@ -34,7 +34,7 @@ SECRET_KEY = 'django-insecure-bj$p*$a@a=kwtw3^2*!=6zx*tsjxd4az$f4b38-2-0k3()b0^2
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '8000-danparkinso-todoitdrfap-a8d1xmc46sy.ws.codeinstitute-ide.net',
+    '127.0.0.1',
 ]
 
 
