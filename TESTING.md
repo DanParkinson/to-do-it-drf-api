@@ -4,9 +4,9 @@
 
 #### ** General Task List & Detail Tests**
 
-- [ ] **Retrieve Task List**: Users can retrieve only their own task list.
-- [ ] **Retrieve a Specific Task**: Users can retrieve a task that belongs to them.
-- [ ] **Unauthorized Task Access**: Users cannot retrieve another user's task (`404 Not Found`).
+- [x] **Retrieve Task List**: Users can retrieve only their own task list.
+- [x] **Retrieve a Specific Task**: Users can retrieve a task that belongs to them.
+- [x] **Unauthorized Task Access**: Users cannot retrieve another user's task (`404 Not Found`).
 
 #### ** Task Creation**
 
