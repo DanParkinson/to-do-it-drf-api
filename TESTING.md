@@ -1,0 +1,37 @@
+# Testing
+
+## Tasks
+
+#### ** General Task List & Detail Tests**
+
+- [ ] **Retrieve Task List**: Users can retrieve only their own task list.
+- [ ] **Retrieve a Specific Task**: Users can retrieve a task that belongs to them.
+- [ ] **Unauthorized Task Access**: Users cannot retrieve another user's task (`404 Not Found`).
+
+#### ** Task Creation**
+
+- [ ] **Successful Task Creation**: Logged-in users can create tasks with valid data.
+- [ ] **Failed Task Creation**: Task creation fails with invalid or missing data (`400 Bad Request`).
+- [ ] **Task Ownership**: Task is automatically assigned to the logged-in user upon creation.
+- [ ] **Unauthenticated Task Creation**: Unauthenticated users cannot create tasks (`401 Unauthorized`).
+
+#### ** Task Update**
+
+- [ ] **Successful Task Update**: Task owners can update their own tasks.
+- [ ] **Failed Task Update**: Updating a task with invalid data should fail (`400 Bad Request`).
+- [ ] **Prevent Changing Ownership**: Task owners cannot update the `owner` field.
+- [ ] **Unauthorized Task Update**: Users cannot update another user's task (`404 Not Found`).
+- [ ] **Unauthenticated Task Update**: Unauthenticated users cannot update any task (`401 Unauthorized`).
+
+#### ** Task Deletion**
+
+- [ ] **Successful Task Deletion**: Task owners can delete their own tasks.
+- [ ] **Unauthorized Task Deletion**: Users cannot delete another user's task (`404 Not Found`).
+- [ ] **Unauthenticated Task Deletion**: Unauthenticated users cannot delete any task (`401 Unauthorized`).
+
+#### ** Edge Cases**
+
+- [ ] **Non-existent Task Retrieval**: Retrieving a non-existent task should return `404 Not Found`.
+- [ ] **Non-existent Task Update/Delete**: Attempting to update or delete a non-existent task should return `404 Not Found`.
+
+---
