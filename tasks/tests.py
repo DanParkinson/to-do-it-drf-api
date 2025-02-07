@@ -41,22 +41,102 @@ class TaskListTests(APITestCase):
         '''
         self.client.login(username="testuser1", password="password123")
         response = self.client.get('/tasks/')
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 2)
     
-    def retrieve_specific_task_with_ownership(self):
+    def test_retrieve_specific_task_with_ownership(self):
         '''
         User can retreive a task that belongs to them
         '''
         self.client.login(username='testuser1', password='password123')
         response =self.client.get(f'/tasks/{self.task1.id}/')
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def retrieve_specific_task_without_ownership(self):
+    def test_retrieve_specific_task_without_ownership(self):
+        '''
+        User cannot retrieve another users task
+        '''
+        self.client.login(username='testuser1', password='password123')
+        response = self.client.get(f'/tasks/{self.task3.id}/')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+    
+    def test_task_creation_authorised(self):
+        '''
+        Logged in user can create a task
+        '''
+        self.client.login(username='testuser1', password='password123')
+
+        task_data = {
+            "title": "New Task",
+            "description": "This is a test task.",
+            "status": "Pending",
+            "priority": "Medium",
+            "due_date": "2024-04-01"
+        }
+
+        response = self.client.post('/tasks/', task_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        self.assertEqual(Tasks.objects.count(), 4)
+        new_task = Tasks.objects.get(title='New Task')
+        self.assertEqual(new_task.owner, self.user1)
+        self.assertEqual(new_task.description, "This is a test task.")
+        self.assertEqual(new_task.status, "Pending")
+        self.assertEqual(new_task.priority, "Medium")
+        self.assertEqual(str(new_task.due_date), "2024-04-01")
+    
+    def test_task_creation_invalid_data(self):
 
         self.client.login(username='testuser1', password='password123')
-        response = self.client.get(f'/tasks/{self.task3.id}')
 
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        task_data = {
+            "title": "",
+            "description": "This is a test task.",
+            "status": "Pending",
+            "priority": "Medium",
+            "due_date": "2024-04-01"
+        }
+
+        response = self.client.post(f'/tasks/', task_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    
+    def test_task_ownership_on_creation(self):
+        '''
+        Ensure that the owner of a newly created task is automatically set to the logged-in user.
+        '''
+        self.client.login(username='testuser1', password='password123')
+
+        task_data = {
+        "title": "Owned Task",
+        "description": "Task should be owned by testuser1.",
+        "status": "Pending",
+        "priority": "High",
+        "due_date": "2024-04-10"
+        }
+
+        response = self.client.post('/tasks/', task_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        self.assertEqual(Tasks.objects.count(), 4)
+        new_task = Tasks.objects.get(title="Owned Task")
+        self.assertEqual(new_task.owner, self.user1)
+    
+    def test_unauthenticated_task_creation(self):
+        '''
+        Ensure that unauthenticated users cannot create tasks.
+        '''
+        task_data = {
+            "title": "Unauthorized Task",
+            "description": "This task should not be created.",
+            "status": "Pending",
+            "priority": "Low",
+            "due_date": "2024-04-15"
+        }
+
+        response = self.client.post('/tasks/', task_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(Tasks.objects.count(), 3)
+
+
+
+        

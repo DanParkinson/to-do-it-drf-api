@@ -10,9 +10,9 @@
 
 #### ** Task Creation**
 
-- [ ] **Successful Task Creation**: Logged-in users can create tasks with valid data.
-- [ ] **Failed Task Creation**: Task creation fails with invalid or missing data (`400 Bad Request`).
-- [ ] **Task Ownership**: Task is automatically assigned to the logged-in user upon creation.
+- [x] **Successful Task Creation**: Logged-in users can create tasks with valid data.
+- [x] **Failed Task Creation**: Task creation fails with invalid or missing data (`400 Bad Request`).
+- [x] **Task Ownership**: Task is automatically assigned to the logged-in user upon creation.
 - [ ] **Unauthenticated Task Creation**: Unauthenticated users cannot create tasks (`401 Unauthorized`).
 
 #### ** Task Update**
