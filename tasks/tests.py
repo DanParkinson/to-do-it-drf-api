@@ -227,7 +227,34 @@ class TaskListTests(APITestCase):
         self.assertNotEqual(self.task1.priority, "Medium")
         self.assertNotEqual(str(self.task1.due_date), "2024-06-01")
     
+    def test_successful_task_deletion(self):
+        '''
+        Ensure that a task owner can delete their own task successfully.
+        '''
+        self.client.login(username='testuser1', password='password123')
+        response = self.client.delete(f'/tasks/{self.task1.id}/')
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        with self.assertRaises(Tasks.DoesNotExist):
+            Tasks.objects.get(id=self.task1.id)
+    
+    def test_unauthorized_task_deletion(self):
+        '''
+        Ensure a user cannot delete another user's task.
+        '''
+        self.client.login(username='testuser2', password='password123')
+        response = self.client.delete(f'/tasks/{self.task1.id}/')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        task_exists = Tasks.objects.filter(id=self.task1.id).exists()
+        self.assertTrue(task_exists)
 
+    def test_unauthenticated_task_deletion(self):
+        '''
+        Ensure that unauthenticated users cannot delete any task.
+        '''
+        response = self.client.delete(f'/tasks/{self.task1.id}/')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        task_exists = Tasks.objects.filter(id=self.task1.id).exists()
+        self.assertTrue(task_exists)
 
 
 

@@ -24,9 +24,9 @@
 
 #### ** Task Deletion**
 
-- [ ] **Successful Task Deletion**: Task owners can delete their own tasks.
-- [ ] **Unauthorized Task Deletion**: Users cannot delete another user's task (`404 Not Found`).
-- [ ] **Unauthenticated Task Deletion**: Unauthenticated users cannot delete any task (`401 Unauthorized`).
+- [x] **Successful Task Deletion**: Task owners can delete their own tasks.
+- [x] **Unauthorized Task Deletion**: Users cannot delete another user's task (`404 Not Found`).
+- [x] **Unauthenticated Task Deletion**: Unauthenticated users cannot delete any task (`401 Unauthorized`).
 
 #### ** Edge Cases**
 
