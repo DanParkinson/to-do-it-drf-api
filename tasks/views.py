@@ -12,6 +12,10 @@ from django.shortcuts import get_object_or_404
 from .serializers import TaskSerializer
 #models
 from .models import Task
+# filters
+from rest_framework.filters import OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import filter_tasks_by_priority, filter_tasks_by_status
 
 class TaskListView(generics.ListCreateAPIView):
     '''
@@ -22,12 +26,19 @@ class TaskListView(generics.ListCreateAPIView):
     '''
     permission_classes = [IsAuthenticated]
     serializer_class = TaskSerializer
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ['priority', 'status']
+    ordering_fields = ['priority', 'due_date']
 
     def get_queryset(self):
         '''
         Returns only tasks belonging to the logged in user
+        Supports filtering by priority.
         '''
-        return Task.objects.filter(owner=self.request.user)
+        queryset = Task.objects.filter(owner=self.request.user)
+        queryset = filter_tasks_by_priority(queryset, self.request)
+        queryset = filter_tasks_by_status(queryset, self.request)
+        return queryset
 
     def perform_create(self, serializer):
         '''

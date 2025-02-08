@@ -68,13 +68,14 @@ Additional features such as task filtering, search functionality, and user authe
 
 #### **🔹 Task Filtering & Functionality**
 
-- [ ] Users can filter tasks by `priority`, `status`, `due date`, or `category`.
+- [ ] Users can filter tasks by `priority`, `status`, or `category`.
+- [ ] Users can order tasks by priority and due date
 - [ ] Tasks whose due date is in the past should automatically change status to `overdue` (Research needed before implementation).
 
 #### **🔹 Testing & Features**
 
 - [ ] Run tests to check that the `Profiles` resource works as expected.
-- [ ] Run tests to check that the `Tasks` resource works as expected.
+- [x] Run tests to check that the `Tasks` resource works as expected.
 - [ ] Run tests to check that the `Categories` resource works as expected.
 - [ ] Run tests to check that filtering and search works as expected.
 - [ ] Add a search function.
