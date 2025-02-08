@@ -11,7 +11,7 @@ from django.shortcuts import get_object_or_404
 #serializers
 from .serializers import TaskSerializer
 #models
-from .models import Tasks
+from .models import Task
 
 class TaskListView(generics.ListCreateAPIView):
     '''
@@ -26,7 +26,7 @@ class TaskListView(generics.ListCreateAPIView):
         '''
         Returns only tasks belonging to the logged in user
         '''
-        return Tasks.objects.filter(owner=self.request.user)
+        return Task.objects.filter(owner=self.request.user)
 
     def perform_create(self, serializer):
         '''
@@ -48,7 +48,7 @@ class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
         Returns only tasks belonging to the logged in user.
         returns 404 for none-owner as the task is not in the queryset. not a 403 forbidden.
         '''
-        return Tasks.objects.filter(owner=self.request.user)
+        return Task.objects.filter(owner=self.request.user)
     
     def get_object(self):
         '''

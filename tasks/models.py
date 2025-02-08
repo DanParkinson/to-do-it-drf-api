@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Tasks(models.Model):
+class Task(models.Model):
     '''
     Task model, related to 'owner', i.e a User interface
     '''
@@ -37,8 +37,8 @@ class Tasks(models.Model):
     due_date = models.DateField(blank=True, null=True)
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['-created_at', 'owner']
     
     def __str__(self):
-        return f'{self.owner} - {self.title} - id = {self.id}'
+        return f'{self.owner} | title: {self.title} | id = {self.id}'
 

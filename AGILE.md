@@ -59,10 +59,10 @@ Additional features such as task filtering, search functionality, and user authe
 
 #### **🔹 Categories App**
 
-- [ ] Create the `Categories` app.
-- [ ] Create `Category` model.
-- [ ] Create `CategoryListView`.
-- [ ] Create `CategorySerializer`.
+- [x] Create the `Categories` app.
+- [x] Create `Category` model.
+- [x] Create `CategoryListView`.
+- [x] Create `CategorySerializer`.
 - [ ] Create `Category` URLs.
 - [ ] Create `CategoryDetailView` for update, retrieve, and delete.
 
