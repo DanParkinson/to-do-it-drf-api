@@ -35,6 +35,8 @@ class TaskListTests(APITestCase):
             due_date=date(2025, 3, 1)
         )
 
+    # ------ General Task List & Detail Tests -----
+
     def test_retrieve_task_list(self):
         '''
         Ensure a logged in user can retrieve their task list 
@@ -60,7 +62,9 @@ class TaskListTests(APITestCase):
         response = self.client.get(f'/tasks/{self.task3.id}/')
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
     
-    def test_task_creation_authorised(self):
+    # ------ Task Creation ----- 
+    
+    def test_Successful_Task_Creation(self):
         '''
         Logged in user can create a task
         '''
@@ -136,8 +140,10 @@ class TaskListTests(APITestCase):
         response = self.client.post('/tasks/', task_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Tasks.objects.count(), 3)
+
+    # ------ Task Update ----- 
     
-    def test_Update_own_tesk_valid_data(self):
+    def test_update_own_task_valid_data(self):
         '''
         A user can update their own task
         '''
@@ -160,7 +166,7 @@ class TaskListTests(APITestCase):
         self.assertEqual(self.task1.priority, "High")
         self.assertEqual(str(self.task1.due_date), "2024-05-01")
     
-    def test_Update_own_tesk_invalid_data(self):
+    def test_update_own_task_invalid_data(self):
         '''
         A user cannot update a task with invalid data
         '''
@@ -227,6 +233,8 @@ class TaskListTests(APITestCase):
         self.assertNotEqual(self.task1.priority, "Medium")
         self.assertNotEqual(str(self.task1.due_date), "2024-06-01")
     
+    # ------ Task Delete ----- 
+
     def test_successful_task_deletion(self):
         '''
         Ensure that a task owner can delete their own task successfully.
@@ -255,6 +263,35 @@ class TaskListTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         task_exists = Tasks.objects.filter(id=self.task1.id).exists()
         self.assertTrue(task_exists)
+
+    # ------ edge cases ----- 
+    
+    def test_non_existent_task_retrieval(self):
+        '''
+        Ensure that retrieving a non-existent task returns 404 Not Found.
+        '''
+        self.client.login(username='testuser1', password='password123')
+        non_existent_task_id = 9999
+        response = self.client.get(f'/tasks/{non_existent_task_id}/')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+    
+    def test_update_non_existent_task(self):
+        '''
+        Ensure that attempting to update a non-existent task returns 404 Not Found.
+        '''
+        self.client.login(username='testuser1', password='password123')
+        non_existent_task_id = 9999
+        update_data = {
+            "title": "Updated Task",
+            "description": "Trying to update a task that does not exist.",
+            "status": "Completed",
+            "priority": "High",
+            "due_date": "2024-06-10"
+        }
+
+        response = self.client.put(f'/tasks/{non_existent_task_id}/', update_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
 
 
 

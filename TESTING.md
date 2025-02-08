@@ -5,8 +5,8 @@
 #### ** General Task List & Detail Tests**
 
 - [x] **Retrieve Task List**: Users can retrieve only their own task list.
-- [x] **Retrieve a Specific Task**: Users can retrieve a task that belongs to them.
-- [x] **Unauthorized Task Access**: Users cannot retrieve another user's task (`404 Not Found`).
+- [x] **Retrieve a Specific Task with ownership**: Users can retrieve a task that belongs to them.
+- [x] **Retrieve a Specific Task without ownership**: Users cannot retrieve another user's task (`404 Not Found`).
 
 #### ** Task Creation**
 
@@ -26,11 +26,11 @@
 
 - [x] **Successful Task Deletion**: Task owners can delete their own tasks.
 - [x] **Unauthorized Task Deletion**: Users cannot delete another user's task (`404 Not Found`).
-- [x] **Unauthenticated Task Deletion**: Unauthenticated users cannot delete any task (`401 Unauthorized`).
+- [x] **Unauthenticated Task Deletion**: Unauthenticated users cannot delete any task (`403 FORBIDDEN`).
 
 #### ** Edge Cases**
 
-- [ ] **Non-existent Task Retrieval**: Retrieving a non-existent task should return `404 Not Found`.
-- [ ] **Non-existent Task Update/Delete**: Attempting to update or delete a non-existent task should return `404 Not Found`.
+- [x] **Non-existent Task Retrieval**: Retrieving a non-existent task should return `404 Not Found`.
+- [x] **Non-existent Task Update/Delete**: Attempting to update or delete a non-existent task should return `404 Not Found`.
 
 ---
