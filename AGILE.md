@@ -55,6 +55,7 @@ Additional features such as task filtering, search functionality, and user authe
 - [x] Create `TaskSerializer`.
 - [x] Create `Task` URLs.
 - [x] Create `TaskDetailView` for update, retrieve, and delete.
+- [x] Write unittests for task resource.
 
 #### **🔹 Categories App**
 
