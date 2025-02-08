@@ -1,12 +1,19 @@
 from rest_framework import serializers
 from .models import Task
+from categories.models import Category
+
 
 class TaskSerializer(serializers.ModelSerializer):
     '''
-    Serializer for the Task model.
-    - Ensures owner details are read-only.
+    Read-only serializer for retrieving task data.
+    - Ensures users can only see and assign their own categories.
     '''
     owner = serializers.ReadOnlyField(source='owner.username')
+    category = serializers.PrimaryKeyRelatedField(
+        queryset=Category.objects.none(), 
+        allow_null=True,
+        required=False,
+    )
 
     class Meta:
         '''
@@ -18,9 +25,19 @@ class TaskSerializer(serializers.ModelSerializer):
             'owner',
             'title',
             'description',
+            'category',
             'status',
             'priority',
             'created_at',
             'updated_at',
             'due_date',
         ]
+    
+    def __init__(self, *args, **kwargs):
+        '''
+        Filter category choices based on the logged in user
+        '''
+        super().__init__(*args, **kwargs)
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            self.fields['category'].queryset = Category.objects.filter(owner=request.user)

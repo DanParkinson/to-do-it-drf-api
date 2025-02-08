@@ -18,6 +18,7 @@ class TaskListView(generics.ListCreateAPIView):
     API view for listing and creating tasks.
     - Users can only view their own tasks.
     - Users must be authenticated to access.
+    - Users can only assign categories they own.
     '''
     permission_classes = [IsAuthenticated]
     serializer_class = TaskSerializer
@@ -31,6 +32,7 @@ class TaskListView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         '''
         Returns only tasks belonging to the logged-in user.
+        Restrict users to only their own categories
         '''
         serializer.save(owner=self.request.user)
 

@@ -1,9 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
+from categories.models import Category
 
 class Task(models.Model):
     '''
-    Task model, related to 'owner', i.e a User interface
+    Task model, related to 'owner', i.e a User, and 'catergory'.
     '''
     STATUS_CHOICES = [
         ('Pending','Pending'),
@@ -21,6 +22,7 @@ class Task(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField(blank = True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
