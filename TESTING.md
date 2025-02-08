@@ -13,15 +13,14 @@
 - [x] **Successful Task Creation**: Logged-in users can create tasks with valid data.
 - [x] **Failed Task Creation**: Task creation fails with invalid or missing data (`400 Bad Request`).
 - [x] **Task Ownership**: Task is automatically assigned to the logged-in user upon creation.
-- [ ] **Unauthenticated Task Creation**: Unauthenticated users cannot create tasks (`401 Unauthorized`).
+- [x] **Unauthenticated Task Creation**: Unauthenticated users cannot create tasks (`403 Forbidden`).
 
 #### ** Task Update**
 
-- [ ] **Successful Task Update**: Task owners can update their own tasks.
-- [ ] **Failed Task Update**: Updating a task with invalid data should fail (`400 Bad Request`).
-- [ ] **Prevent Changing Ownership**: Task owners cannot update the `owner` field.
-- [ ] **Unauthorized Task Update**: Users cannot update another user's task (`404 Not Found`).
-- [ ] **Unauthenticated Task Update**: Unauthenticated users cannot update any task (`401 Unauthorized`).
+- [x] **Successful Task Update**: Task owners can update their own tasks.
+- [x] **Failed Task Update**: Updating a task with invalid data should fail (`400 Bad Request`).
+- [x] **Prevent Changing Ownership**: Task owners cannot update the `owner` field.
+- [x] **Unauthorized Task Update**: Users cannot update another user's task (`404 Not Found`).
 
 #### ** Task Deletion**
 

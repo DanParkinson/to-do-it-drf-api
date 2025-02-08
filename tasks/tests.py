@@ -136,6 +136,102 @@ class TaskListTests(APITestCase):
         response = self.client.post('/tasks/', task_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Tasks.objects.count(), 3)
+    
+    def test_Update_own_tesk_valid_data(self):
+        '''
+        A user can update their own task
+        '''
+        self.client.login(username='testuser1', password='password123')
+
+        update_data = {
+        "title": "Updated Task Title",
+        "description": "This task has been updated.",
+        "status": "Completed",
+        "priority": "High",
+        "due_date": "2024-05-01"
+        }
+
+        response = self.client.put(f'/tasks/{self.task1.id}/', update_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.task1.refresh_from_db()
+        self.assertEqual(self.task1.title, "Updated Task Title")
+        self.assertEqual(self.task1.description, "This task has been updated.")
+        self.assertEqual(self.task1.status, "Completed")
+        self.assertEqual(self.task1.priority, "High")
+        self.assertEqual(str(self.task1.due_date), "2024-05-01")
+    
+    def test_Update_own_tesk_invalid_data(self):
+        '''
+        A user cannot update a task with invalid data
+        '''
+        self.client.login(username='testuser1', password='password123')
+
+        update_data = {
+        "title": "",
+        "description": "Invalid update attempt",
+        "status": "wrong",
+        "priority": "wrong",
+        "due_date": "wrong"
+        }
+
+        response = self.client.put(f'/tasks/{self.task1.id}/', update_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.task1.refresh_from_db()
+        self.assertNotEqual(self.task1.description, "Invalid update attempt")
+        self.assertNotEqual(self.task1.status, "wrong")
+        self.assertNotEqual(self.task1.priority, "wrong")
+        self.assertNotEqual(str(self.task1.due_date), "wrong")
+    
+    def test_cannot_update_owner_field(self):
+        '''
+        Ensure users cannot change ownership. Other fields will still be updated.
+        '''
+        self.client.login(username='testuser1', password='password123')
+
+        update_data = {
+        "title": "Ownership Update Attempt",
+        "description": "Trying to change the owner field.",
+        "status": "In Progress",
+        "priority": "Medium",
+        "due_date": "2024-05-20",
+        "owner": self.user2.id
+        }
+
+        response = self.client.put(f'/tasks/{self.task1.id}/', update_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.task1.refresh_from_db()
+        self.assertEqual(self.task1.owner, self.user1)
+        self.assertEqual(self.task1.description, "Trying to change the owner field.")
+    
+    def test_unauthorized_task_update(self):
+        '''
+        Ensure that a user cannot update a task they do not own.
+        '''
+        self.client.login(username='testuser2', password='password123')
+
+        update_data = {
+            "title": "Unauthorized Update",
+            "description": "This should not be allowed.",
+            "status": "Completed",
+            "priority": "Medium",
+            "due_date": "2024-06-01"
+        }
+
+        response = self.client.put(f'/tasks/{self.task1.id}/', update_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.task1.refresh_from_db()
+
+        self.assertNotEqual(self.task1.title, "Unauthorized Update")
+        self.assertNotEqual(self.task1.description, "This should not be allowed")
+        self.assertNotEqual(self.task1.status, "Completed")
+        self.assertNotEqual(self.task1.priority, "Medium")
+        self.assertNotEqual(str(self.task1.due_date), "2024-06-01")
+    
+
+
+
+
+
 
 
 
