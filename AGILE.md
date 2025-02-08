@@ -63,8 +63,8 @@ Additional features such as task filtering, search functionality, and user authe
 - [x] Create `Category` model.
 - [x] Create `CategoryListView`.
 - [x] Create `CategorySerializer`.
-- [ ] Create `Category` URLs.
-- [ ] Create `CategoryDetailView` for update, retrieve, and delete.
+- [x] Create `Category` URLs.
+- [x] Create `CategoryDetailView` for update, retrieve, and delete.
 
 #### **🔹 Task Filtering & Functionality**
 

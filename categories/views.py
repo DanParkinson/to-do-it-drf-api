@@ -24,3 +24,17 @@ class CategoryListView(generics.ListCreateAPIView):
         Automatically assigns the logged-in user as the category owner.
         """
         serializer.save(owner=self.request.user)
+    
+class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
+    '''
+    API view for retrieving, updating, and deleting categories.
+    - Users can only modify their own categories.
+    '''
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+    serializer_class = CategorySerializer
+
+    def get_queryset(self):
+        """
+        Returns only categories belonging to the logged-in user.
+        """
+        return Category.objects.filter(owner=self.request.user)
