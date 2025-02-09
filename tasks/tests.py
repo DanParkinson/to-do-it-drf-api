@@ -1,7 +1,7 @@
 from rest_framework.test import APITestCase
 from rest_framework import status
 from django.contrib.auth.models import User
-from .models import Tasks
+from .models import Task
 from datetime import date
 
 class TaskListTests(APITestCase):
@@ -10,7 +10,7 @@ class TaskListTests(APITestCase):
         self.user1 = User.objects.create_user(username='testuser1', password='password123')
         self.user2 = User.objects.create_user(username='testuser2', password='password123')
 
-        self.task1 = Tasks.objects.create(
+        self.task1 = Task.objects.create(
             owner=self.user1,
             title="Task 1",
             description="First task description",
@@ -18,7 +18,7 @@ class TaskListTests(APITestCase):
             priority="High",
             due_date=date(2024, 2, 15)
         )
-        self.task2 = Tasks.objects.create(
+        self.task2 = Task.objects.create(
             owner=self.user1,
             title="Task 2",
             description="Second task description",
@@ -26,7 +26,7 @@ class TaskListTests(APITestCase):
             priority="Medium",
             due_date=date(2024, 3, 1)
         )
-        self.task3 = Tasks.objects.create(
+        self.task3 = Task.objects.create(
             owner=self.user2,
             title="Task 3",
             description="third task description",
@@ -81,8 +81,8 @@ class TaskListTests(APITestCase):
         response = self.client.post('/tasks/', task_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-        self.assertEqual(Tasks.objects.count(), 4)
-        new_task = Tasks.objects.get(title='New Task')
+        self.assertEqual(Task.objects.count(), 4)
+        new_task = Task.objects.get(title='New Task')
         self.assertEqual(new_task.owner, self.user1)
         self.assertEqual(new_task.description, "This is a test task.")
         self.assertEqual(new_task.status, "Pending")
@@ -121,8 +121,8 @@ class TaskListTests(APITestCase):
         response = self.client.post('/tasks/', task_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-        self.assertEqual(Tasks.objects.count(), 4)
-        new_task = Tasks.objects.get(title="Owned Task")
+        self.assertEqual(Task.objects.count(), 4)
+        new_task = Task.objects.get(title="Owned Task")
         self.assertEqual(new_task.owner, self.user1)
     
     def test_unauthenticated_task_creation(self):
@@ -139,7 +139,7 @@ class TaskListTests(APITestCase):
 
         response = self.client.post('/tasks/', task_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-        self.assertEqual(Tasks.objects.count(), 3)
+        self.assertEqual(Task.objects.count(), 3)
 
     # ------ Task Update ----- 
     
@@ -242,8 +242,8 @@ class TaskListTests(APITestCase):
         self.client.login(username='testuser1', password='password123')
         response = self.client.delete(f'/tasks/{self.task1.id}/')
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        with self.assertRaises(Tasks.DoesNotExist):
-            Tasks.objects.get(id=self.task1.id)
+        with self.assertRaises(Task.DoesNotExist):
+            Task.objects.get(id=self.task1.id)
     
     def test_unauthorized_task_deletion(self):
         '''
@@ -252,7 +252,7 @@ class TaskListTests(APITestCase):
         self.client.login(username='testuser2', password='password123')
         response = self.client.delete(f'/tasks/{self.task1.id}/')
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-        task_exists = Tasks.objects.filter(id=self.task1.id).exists()
+        task_exists = Task.objects.filter(id=self.task1.id).exists()
         self.assertTrue(task_exists)
 
     def test_unauthenticated_task_deletion(self):
@@ -261,7 +261,7 @@ class TaskListTests(APITestCase):
         '''
         response = self.client.delete(f'/tasks/{self.task1.id}/')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-        task_exists = Tasks.objects.filter(id=self.task1.id).exists()
+        task_exists = Task.objects.filter(id=self.task1.id).exists()
         self.assertTrue(task_exists)
 
     # ------ edge cases ----- 
