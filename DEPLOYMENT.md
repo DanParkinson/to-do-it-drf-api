@@ -118,7 +118,7 @@ To set up the external database for your project, follow these steps:
    Install Gunicorn for serving your application and other required packages:
 
    ```bash
-   pip3 install gunicorn django-cors-headers
+   pip3 install gunicorn django-cors-headers==3.13.0
    ```
 
    Update your `requirements.txt` file:
