@@ -56,33 +56,33 @@
 
 ### ** Category Retrieval**
 
-- [ ] **Retrieve Category List**: Users can retrieve only their own categories.
-- [ ] **Retrieve a Specific Category (Owned)**: Users can retrieve a category they created.
-- [ ] **Retrieve a Specific Category (Not Owned)**: Users cannot retrieve another user's category (`404 Not Found`).
+- [x] **Retrieve Category List**: Users can retrieve only their own categories.
+- [x] **Retrieve a Specific Category (Owned)**: Users can retrieve a category they created.
+- [x] **Retrieve a Specific Category (Not Owned)**: Users cannot retrieve another user's category (`404 Not Found`).
 
 ### ** Category Creation**
 
-- [ ] **Successful Category Creation**: Users can create a category with valid data.
-- [ ] **Category Creation Invalid Data**: Category creation fails with invalid data (`400 Bad Request`).
-- [ ] **Unauthenticated Category Creation**: Unauthenticated users cannot create categories (`403 Forbidden`).
+- [x] **Successful Category Creation**: Users can create a category with valid data.
+- [x] **Category Creation Invalid Data**: Category creation fails with invalid data (`400 Bad Request`).
+- [x] **Unauthenticated Category Creation**: Unauthenticated users cannot create categories (`403 Forbidden`).
 
 ### ** Category Update**
 
-- [ ] **Update Own Category**: Users can update their own category.
-- [ ] **Update Category Invalid Data**: Updating a category with invalid data should fail (`400 Bad Request`).
-- [ ] **Unauthorized Category Update**: Users cannot update another user’s category (`404 Not Found`).
+- [x] **Update Own Category**: Users can update their own category.
+- [x] **Update Category Invalid Data**: Updating a category with invalid data should fail (`400 Bad Request`).
+- [x] **Unauthorized Category Update**: Users cannot update another user’s category (`404 Not Found`).
 
 ### ** Category Deletion**
 
-- [ ] **Successful Category Deletion**: Users can delete their own categories.
-- [ ] **Unauthorized Category Deletion**: Users cannot delete another user’s category (`404 Not Found`).
-- [ ] **Unauthenticated Category Deletion**: Unauthenticated users cannot delete categories (`403 Forbidden`).
+- [x] **Successful Category Deletion**: Users can delete their own categories.
+- [x] **Unauthorized Category Deletion**: Users cannot delete another user’s category (`404 Not Found`).
+- [x] **Unauthenticated Category Deletion**: Unauthenticated users cannot delete categories (`403 Forbidden`).
 
 ### ** Task-Category Relationship**
 
-- [ ] **Task Belongs to a Valid Category**: A task must be assigned to an existing category owned by the user.
-- [ ] **Cannot Assign Task to Another User’s Category**: Users cannot create a task with a category that belongs to another user (`400 Bad Request`).
-- [ ] **Category Deletion Also Unlinks Tasks**: If a category is deleted, ensure tasks linked to it are handled correctly (e.g., set `null`, or cascade delete).
+- [x] **Task Belongs to a Valid Category**: A task must be assigned to an existing category owned by the user.
+- [x] **Cannot Assign Task to Another User’s Category**: Users cannot create a task with a category that belongs to another user (`400 Bad Request`).
+- [x] **Category Deletion Also Unlinks Tasks**: If a category is deleted, ensure tasks linked to it are handled correctly (e.g., set `null`, or cascade delete).
 
 #### ** Edge Cases**
 
