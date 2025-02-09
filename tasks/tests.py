@@ -292,6 +292,84 @@ class TaskListTests(APITestCase):
         response = self.client.put(f'/tasks/{non_existent_task_id}/', update_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
+class TaskFilteringTests(APITestCase):
+    '''
+    Tests for filtering tasks by priority, status, and due date sorting.
+    '''
+
+    def setUp(self):
+        '''
+        Create test users and tasks.
+        '''
+        self.user = User.objects.create_user(username="testuser", password="password123")
+        self.client.login(username="testuser", password="password123")
+
+        self.task1 = Task.objects.create(
+            owner=self.user, title="Task 1", priority="High", status="Pending", due_date=date(2024, 2, 10)
+        )
+        self.task2 = Task.objects.create(
+            owner=self.user, title="Task 2", priority="Medium", status="In Progress", due_date=date(2024, 3, 15)
+        )
+        self.task3 = Task.objects.create(
+            owner=self.user, title="Task 3", priority="Low", status="Completed", due_date=date(2024, 4, 1)
+        )
+    
+    def test_filter_by_priority_valid(self):
+        '''
+        Users can filter tasks by valid priority (High, Medium, Low).
+        '''
+        response = self.client.get('/tasks/?priority=High')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['title'], "Task 1")
+    
+    def test_filter_by_status_valid(self):
+        '''
+        Users can filter tasks by valid status (Pending, In Progress, Completed, Overdue).
+        '''
+        response = self.client.get('/tasks/?status=Pending')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['title'], "Task 1")
+    
+    def test_filter_by_priority_and_status(self):
+        '''
+        Users can filter by both priority and status together.
+        '''
+        response = self.client.get('/tasks/?priority=High&status=Pending')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['title'], "Task 1")
+    
+    def test_filter_by_status_and_sort_by_due_date(self):
+        '''
+        Users can filter by status and sort by due date.
+        '''
+        response = self.client.get('/tasks/?status=Pending&ordering=due_date')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['title'], "Task 1")
+    
+    def test_sort_tasks_by_earliest_due_date(self):
+        '''
+        Users can sort tasks in ascending order of due date.
+        '''
+        response = self.client.get('/tasks/?ordering=due_date')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data[0]['title'], "Task 1")
+        self.assertEqual(response.data[2]['title'], "Task 3")
+    
+    def test_sort_tasks_by_latest_due_date(self):
+        '''
+        Users can sort tasks in descending order of due date.
+        '''
+        response = self.client.get('/tasks/?ordering=-due_date')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data[0]['title'], "Task 3")
+        self.assertEqual(response.data[2]['title'], "Task 1")
+
+
+
 
 
 
