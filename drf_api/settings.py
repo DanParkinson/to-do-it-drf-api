@@ -62,7 +62,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    'drf-api-to-do-it.herokuapp.com'
+    'drf-api-to-do-it-66c166422b31.herokuapp.com',
 ]
 
 
