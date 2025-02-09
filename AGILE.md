@@ -83,7 +83,7 @@ Additional features such as task filtering, search functionality, and user authe
 
 #### **🔹 Authentication & Deployment Preparation**
 
-- [ ] Install Django authentication and JWT tokens.
+- [x] Install Django authentication and JWT tokens.
 - [ ] Prepare for deployment in Sprint 3:
   - Add pagination.
   - Add a `root_route`.
