@@ -15,6 +15,7 @@ from .models import Task
 # filters
 from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
 from .filters import filter_tasks_by_priority, filter_tasks_by_status
 
 class TaskListView(generics.ListCreateAPIView):
@@ -23,12 +24,14 @@ class TaskListView(generics.ListCreateAPIView):
     - Users can only view their own tasks.
     - Users must be authenticated to access.
     - Users can only assign categories they own.
+    - Supports text search by title and description.
     '''
     permission_classes = [IsAuthenticated]
     serializer_class = TaskSerializer
-    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     filterset_fields = ['priority', 'status']
-    ordering_fields = ['priority', 'due_date']
+    ordering_fields = ['priority', 'due_date', 'status']
+    search_fields = ['title', 'description']
 
     def get_queryset(self):
         '''
