@@ -4,6 +4,7 @@ from .models import Category
 from .serializers import CategorySerializer
 from drf_api.permissions import IsOwnerOrReadOnly
 
+
 class CategoryListView(generics.ListCreateAPIView):
     """
     API view for listing and creating categories.
@@ -24,7 +25,8 @@ class CategoryListView(generics.ListCreateAPIView):
         Automatically assigns the logged-in user as the category owner.
         """
         serializer.save(owner=self.request.user)
-    
+
+
 class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     '''
     API view for retrieving, updating, and deleting categories.
@@ -38,3 +40,4 @@ class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
         Returns only categories belonging to the logged-in user.
         """
         return Category.objects.filter(owner=self.request.user)
+        

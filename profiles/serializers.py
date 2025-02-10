@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Profile
 
+
 class ProfileSerializer(serializers.ModelSerializer):
     '''
     Serializer for the Profile model
@@ -16,15 +17,17 @@ class ProfileSerializer(serializers.ModelSerializer):
         """
         Custom method to determine if the logged-in user owns the profile.
         - Accesses the request from serializer context.
-        - Compares the logged-in user (`request.user`) with the profile owner (`obj.owner`).
+        - Compares the logged-in user
+            with the profile owner (`obj.owner`).
         - Returns True if the user is the owner, otherwise False.
         """
         request = self.context['request']
-        return request.user  == obj.owner
+        return request.user == obj.owner
 
     class Meta:
         '''
-        Meta class to specify the model and fields to include in the serialization.
+        Meta class to specify the model and
+        fields to include in the serialization.
         '''
         model = Profile
         fields = [

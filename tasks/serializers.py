@@ -10,14 +10,15 @@ class TaskSerializer(serializers.ModelSerializer):
     '''
     owner = serializers.ReadOnlyField(source='owner.username')
     category = serializers.PrimaryKeyRelatedField(
-        queryset=Category.objects.none(), 
+        queryset=Category.objects.none(),
         allow_null=True,
         required=False,
     )
 
     class Meta:
         '''
-        Meta class to specify the model and fields to include in the serialization.
+        Meta class to specify the model
+        and fields to include in the serialization.
         '''
         model = Task
         fields = [
@@ -32,7 +33,7 @@ class TaskSerializer(serializers.ModelSerializer):
             'updated_at',
             'due_date',
         ]
-    
+
     def __init__(self, *args, **kwargs):
         '''
         Filter category choices based on the logged in user
@@ -40,4 +41,6 @@ class TaskSerializer(serializers.ModelSerializer):
         super().__init__(*args, **kwargs)
         request = self.context.get('request')
         if request and request.user.is_authenticated:
-            self.fields['category'].queryset = Category.objects.filter(owner=request.user)
+            self.fields[
+                'category'
+                ].queryset = Category.objects.filter(owner=request.user)

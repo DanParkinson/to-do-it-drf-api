@@ -5,6 +5,7 @@ from .serializers import ProfileSerializer
 
 from .models import Profile
 
+
 class ProfileListView(generics.ListAPIView):
     '''
     Generalised Profile list view

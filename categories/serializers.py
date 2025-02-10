@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Category
 from tasks.models import Task  # ✅ Import Tasks
 
+
 class CategorySerializer(serializers.ModelSerializer):
     """
     Serializer for the Category model.
@@ -14,7 +15,14 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ['id', 'name', 'owner', 'task_count', 'task_ids', 'created_at']
+        fields = [
+            'id',
+            'name',
+            'owner',
+            'task_count',
+            'task_ids',
+            'created_at'
+        ]
 
     def get_task_count(self, obj):
         """Returns the number of tasks in this category"""
@@ -25,4 +33,8 @@ class CategorySerializer(serializers.ModelSerializer):
         Returns a list of task IDs for this category
         '''
         request = self.context.get('request')
-        return list(Task.objects.filter(category=obj, owner=request.user).values_list('id', flat=True))
+        return list(
+            Task.objects.filter(
+                category=obj,
+                owner=request.user
+            ).values_list('id', flat=True))

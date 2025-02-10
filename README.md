@@ -345,7 +345,8 @@ This process has been documented separately in [AGILE.md](AGILE.md)
 
 ## Testing Workflow
 
-This process has been documented separately in [TESTING.md](TESTING.md)
+- This process has been documented separately in [TESTING.md](TESTING.md)
+- Python Vaildation is documented here [VALIDATION.md](VALIDATION.md)
 
 ## Deployment
 
