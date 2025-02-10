@@ -2,7 +2,7 @@
 
 ## INTRODUCTION
 
-The **To-Do-It API** is a backend service built with **Django REST Framework (DRF)** that powers a task management system. This API allows users to create, update, delete, and organize tasks efficiently. With built-in authentication, categorization, and filtering, it provides a robust solution for personal and collaborative task management.
+The **To-Do-It API** is a backend service built with **Django REST Framework (DRF)** that powers a task management system. This API allows users to create, update, delete, and organize tasks efficiently. With built-in authentication, categorization, and filtering, it provides a robust solution for personal task management.
 
 ### Key Features
 
@@ -22,6 +22,7 @@ For further details, refer to the **API Documentation** and **Installation Workf
 ## Table of Contents
 
 - [Introduction](#introduction)
+- [User Stories](#user-stories)
 - [API Documentation](#api-documentation)
   - [Authentication Endpoints](#authentication-endpoints)
   - [Task Endpoints](#tasks-endpoints)
@@ -57,6 +58,52 @@ For further details, refer to the **API Documentation** and **Installation Workf
 - [Credits](#credits)
 
 --
+
+## User Stories
+
+Full user story documentation will be found on the frontend repository. A list of user story functionality relating to the backend are present here:
+
+### User Authentication & Profile Management
+
+- **As a user, I want to register an account,** so that I can use the task management system.
+- **As a user, I want to log in and receive an authentication token,** so that I can securely access my tasks.
+- **As a user, I want to log out,** so that my session is properly ended.
+- **As a user, I want to retrieve my profile details,** so that I can view my account information.
+- **As a user, I want my profile to be automatically created when I sign up,** so that I don’t have to manually create one.
+
+---
+
+### Task Management
+
+- **As a user, I want to create a task,** so that I can keep track of things I need to do.
+- **As a user, I want to update my task,** so that I can modify details if needed.
+- **As a user, I want to delete my task,** so that I can remove completed or irrelevant tasks.
+- **As a user, I want to see only my own tasks,,** so that my tasks remain private.
+- **As a user, I want to assign a task to a category,** so that I can organize my tasks better.
+- **As a user, I want to set a due date for a task,** so that I know when it needs to be completed.
+- **As a user, I want tasks sorted by due date,** so that I can see which tasks need urgent attention.
+
+---
+
+### Task Filtering & Search
+
+- **As a user, I want to filter tasks by priority,** so that I can focus on high-priority tasks.
+- **As a user, I want to filter tasks by status (Pending, In Progress, Completed, Overdue),** so that I can manage progress.
+- **As a user, I want to search for tasks by title or description,** so that I can quickly find what I need.
+- **As a user, I want to sort tasks by due date,** so that I can see upcoming deadlines first.
+
+---
+
+### Category Management
+
+- **As a user, I want to create categories,** so that I can group similar tasks together.
+- **As a user, I want to update my categories,** so that I can rename or modify them.
+- **As a user, I want to delete my categories,** so that I can remove unused ones.
+- **As a user, I want to see only my own categories,** so that my task organization remains private.
+- **As a user, I want to assign a task to one of my categories,** so that I can keep related tasks together.
+- **As a user, I should not be able to assign tasks to another user’s category,** so that data remains secure.
+
+---
 
 ## API DOCUMENTATION
 
@@ -290,7 +337,7 @@ Make sure you have the following tools installed:
 
 ## Installation Workflow
 
-This process has been documented separately in [INSTALLATIOM.md](INSTALLATION.md)
+This process has been documented separately in [INSTALLATION.md](INSTALLATION.md)
 
 ## Development Workflow
 

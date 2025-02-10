@@ -187,9 +187,10 @@ INSTALLED_APPS = [
 ```
 
 3. add to main urls
-   '''python
-   path('dj-rest-auth/', include('dj-rest-auth.urls')),
-   '''
+
+```python
+path('dj-rest-auth/', include('dj-rest-auth.urls')),
+```
 
 4. migrate the database
 
@@ -198,7 +199,7 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-. Update dependincies file:
+Update dependincies file:
 
 ```python
 pip freeze > requirements.txt
@@ -206,51 +207,51 @@ pip freeze > requirements.txt
 
 5. install allauth
 
-'''python
+```python
 django-allauth==0.54.0
-'''
+```
 
 6. in settings.py installed apps, add:
 
-'''python
+```python
 'django.contrib.sites',
 'allauth',
 'allauth.account',
 'allauth.socialaccount',
 'dj_rest_auth.registration',
-'''
+```
 
 7. add underneath installed apps:
 
-'''python
+```python
 SITE_ID=1
-'''
+```
 
 8. add to main urls:
 
-'''python
+```python
 path(
 'dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')
 ),
-'''
+```
 
 ### JWT tokens
 
 1. install:
 
-'''python
+```python
 pip install djangorestframework-simplejwt==5.2.2
-'''
+```
 
 2. in env.py
 
-'''python
+```python
 os.environ['DEV']='1'
-'''
+```
 
 3. in settings .py add
 
-'''python
+```python
 REST_FRAMEWORK = {
 'DEFAULT_AUTHENTICATION_CLASSES': [(
 'rest_framework.authentication.SessionAuthentication'
@@ -265,11 +266,11 @@ JWT_AUTH_SECURE = True
 JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 JWT_AUTH_SAMESITE = 'None'
-'''
+```
 
 4. Create a serializers.py file in the drf_api folder and add:
 
-'''python
+```python
 from dj_rest_auth.serializers import UserDetailsSerializer
 from rest_framework import serializers
 
@@ -280,16 +281,15 @@ profile_id = serializers.ReadOnlyField(source='profile.id')
         fields = UserDetailsSerializer.Meta.fields + (
             'profile_id'
         )
-
-'''
+```
 
 5. Underneath your JWT tokens in settings.py add:
 
-'''python
+```python
 REST_AUTH_SERIALIZERS = {
 'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
 }
-'''
+```
 
 6. migrate the database
 

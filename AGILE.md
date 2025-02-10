@@ -11,7 +11,7 @@ The first sprint focuses on setting up the repository and documenting the projec
 ### **Tasks**
 
 - [x] Set up the GitHub repository.
-- [x] Perform design thinking exercise for features to include in the project.
+- [x] Perform design thinking exercise for features to include in tshe project.
 - [x] Mock up the initial database design and document it in the README.
 - [x] List and link technologies used in the README.
 
@@ -97,28 +97,3 @@ Deployment of the backend, ensuring all endpoints function correctly in producti
 - Documented in [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ---
-
-## **Sprint 4: Testing and Feedback**
-
-This sprint will focus on testing the backend thoroughly and gathering feedback for improvements.
-
-### **Tasks**
-
-- [ ] Write unit tests for API endpoints.
-- [ ] Conduct integration testing with mock frontend requests.
-- [ ] Document any issues and fixes during testing.
-- [ ] Optimize database queries for performance.
-- [ ] Gather feedback from peers or testers on API functionality.
-
----
-
-## **Sprint 5: Final Adjustments**
-
-The final sprint will involve making adjustments to improve the backend before the frontend integration.
-
-### **Tasks**
-
-- [ ] Review and optimize API response formats.
-- [ ] Ensure proper error handling for all endpoints.
-- [ ] Document API usage for frontend developers.
-- [ ] Finalize README and API documentation.
