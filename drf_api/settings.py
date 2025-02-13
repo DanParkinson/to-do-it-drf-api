@@ -57,7 +57,8 @@ REST_AUTH_SERIALIZERS = {
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'DEV' in os.environ
+DEBUG = True
+# 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
@@ -90,7 +91,7 @@ INSTALLED_APPS = [
     'categories',
 ]
 
-SITE_ID=1
+SITE_ID = 1
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
