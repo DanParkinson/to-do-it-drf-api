@@ -14,6 +14,7 @@ class TaskSerializer(serializers.ModelSerializer):
         allow_null=True,
         required=False,
     )
+    category_name = serializers.SerializerMethodField()
 
     class Meta:
         '''
@@ -27,6 +28,7 @@ class TaskSerializer(serializers.ModelSerializer):
             'title',
             'description',
             'category',
+            'category_name',
             'status',
             'priority',
             'created_at',
@@ -44,3 +46,7 @@ class TaskSerializer(serializers.ModelSerializer):
             self.fields[
                 'category'
                 ].queryset = Category.objects.filter(owner=request.user)
+    
+    def get_category_name(self, obj):
+        '''Returns the category name instead of just the ID'''
+        return obj.category.name if obj.category else "No Category"
