@@ -12,6 +12,7 @@ from django.shortcuts import get_object_or_404
 from .serializers import TaskSerializer
 # models
 from .models import Task
+from categories.models import Category
 # filters
 from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
@@ -51,11 +52,16 @@ class TaskListView(generics.ListCreateAPIView):
         return queryset
 
     def perform_create(self, serializer):
-        '''
-        Returns only tasks belonging to the logged-in user.
-        Restrict users to only their own categories
-        '''
-        serializer.save(owner=self.request.user)
+        """
+        Assigns 'Uncategorized' if no category is provided.
+        """
+        user = self.request.user
+        category = serializer.validated_data.get("category", None)
+
+        if category is None:
+            category = Category.objects.get(owner=user, name="Uncategorized")
+
+        serializer.save(owner=user, category=category)
 
 
 class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):

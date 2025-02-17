@@ -17,8 +17,16 @@ class CategoryListView(generics.ListCreateAPIView):
     def get_queryset(self):
         """
         Returns only categories belonging to the logged-in user.
+        Creates an 'Uncategorized' category if missing.
         """
-        return Category.objects.filter(owner=self.request.user)
+        user = self.request.user
+        queryset = Category.objects.filter(owner=user)
+
+        # Ensure "Uncategorized" exists
+        if not queryset.filter(name="Uncategorized").exists():
+            Category.objects.create(owner=user, name="Uncategorized")
+
+        return queryset
 
     def perform_create(self, serializer):
         """
