@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Category
-from tasks.models import Task  # ✅ Import Tasks
+from tasks.models import Task
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -8,10 +8,12 @@ class CategorySerializer(serializers.ModelSerializer):
     Serializer for the Category model.
     - Shows the task count for each category.
     - Ensures only the category owner can access it.
+    - Display category name not just ID
     """
     owner = serializers.ReadOnlyField(source='owner.username')
     task_count = serializers.SerializerMethodField()
     task_ids = serializers.SerializerMethodField()
+    category = serializers.SerializerMethodField()
 
     class Meta:
         model = Category
@@ -19,10 +21,15 @@ class CategorySerializer(serializers.ModelSerializer):
             'id',
             'name',
             'owner',
+            "category",
             'task_count',
             'task_ids',
             'created_at'
         ]
+
+    def get_category(self, obj):
+        """Return category name if available, otherwise 'Uncategorized'"""
+        return obj.category.name if obj.category else "Uncategorized"
 
     def get_task_count(self, obj):
         """Returns the number of tasks in this category"""
