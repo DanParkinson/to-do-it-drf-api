@@ -40,6 +40,12 @@ class TaskListView(generics.ListCreateAPIView):
         Supports filtering by priority.
         '''
         queryset = Task.objects.filter(owner=self.request.user)
+
+        task_ids = self.request.query_params.get("ids")
+        if task_ids:
+            task_ids = [int(id) for id in task_ids.split(",")]
+            queryset = queryset.filter(id__in=task_ids)
+
         queryset = filter_tasks_by_priority(queryset, self.request)
         queryset = filter_tasks_by_status(queryset, self.request)
         return queryset
