@@ -58,7 +58,7 @@ class TaskListView(generics.ListCreateAPIView):
         user = self.request.user
         category = serializer.validated_data.get("category", None)
 
-        if category is None:
+        if category is None or not Category.objects.filter(id=category.id, owner=user).exists():
             category = Category.objects.get(owner=user, name="Uncategorized")
 
         serializer.save(owner=user, category=category)
