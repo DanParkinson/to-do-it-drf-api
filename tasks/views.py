@@ -37,10 +37,10 @@ class TaskListView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         '''
-        Returns only tasks belonging to the logged in user
+        Returns only active (non-archived) belonging to the logged in user
         Supports filtering by priority.
         '''
-        queryset = Task.objects.filter(owner=self.request.user)
+        queryset = Task.objects.filter(owner=self.request.user, is_archived=False)
 
         task_ids = self.request.query_params.get("ids")
         if task_ids:
@@ -92,3 +92,19 @@ class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
         # ensures 'IsOwnerOrReadOnly' is obeyed
         self.check_object_permissions(self.request, obj)
         return obj
+
+
+class CompletedTaskListView(generics.ListAPIView):
+    '''
+    API view for listing only archived (completed) tasks.
+    - Users can only view their own archived tasks.
+    - Tasks marked as 'Completed' are automatically moved here.
+    '''
+    permission_classes = [IsAuthenticated]
+    serializer_class = TaskSerializer
+
+    def get_queryset(self):
+        '''
+        Returns only archived (completed) tasks belonging to the logged-in user.
+        '''
+        return Task.objects.filter(owner=self.request.user, is_archived=True)

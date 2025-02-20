@@ -44,6 +44,15 @@ class Task(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     due_date = models.DateField(blank=True, null=True)
 
+    # Is Archived for completed tasks
+    is_archived = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        """Automatically archive completed tasks."""
+        if self.status == "Completed":
+            self.is_archived = True
+        super().save(*args, **kwargs)
+
     class Meta:
         ordering = ['-created_at', 'owner']
 

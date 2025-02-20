@@ -4,4 +4,5 @@ from tasks import views
 urlpatterns = [
     path('tasks/', views.TaskListView.as_view()),
     path('tasks/<int:pk>/', views.TaskDetailView.as_view()),
+    path("tasks/completed/", views.CompletedTaskListView.as_view()),
 ]
