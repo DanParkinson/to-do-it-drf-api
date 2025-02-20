@@ -34,6 +34,7 @@ class TaskSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
             'due_date',
+            'is_archived',
         ]
 
     def __init__(self, *args, **kwargs):
