@@ -94,7 +94,7 @@ class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
         return obj
 
 
-class CompletedTaskListView(generics.ListAPIView):
+class ArchivedTaskListView(generics.ListAPIView):
     '''
     API view for listing only archived (completed) tasks.
     - Users can only view their own archived tasks.
