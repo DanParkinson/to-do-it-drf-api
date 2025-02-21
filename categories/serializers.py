@@ -26,7 +26,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
     def get_task_count(self, obj):
         """Returns the number of tasks in this category"""
-        return Task.objects.filter(category=obj).count()
+        return Task.objects.filter(category=obj, is_archived=False).count()
 
     def get_task_ids(self, obj):
         '''
