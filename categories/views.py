@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Category
 from .serializers import CategorySerializer
 from drf_api.permissions import IsOwnerOrReadOnly
+from tasks.models import Task
 
 
 class CategoryListView(generics.ListCreateAPIView):
@@ -39,6 +40,7 @@ class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     '''
     API view for retrieving, updating, and deleting categories.
     - Users can only modify their own categories.
+    - If a category is deleted, all associated tasks are also deleted
     '''
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
     serializer_class = CategorySerializer
@@ -48,4 +50,10 @@ class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
         Returns only categories belonging to the logged-in user.
         """
         return Category.objects.filter(owner=self.request.user)
-        
+      
+    def perform_destroy(self, instance):
+        """
+        Deletes all tasks linked to the category before deleting the category itself.
+        """
+        Task.objects.filter(category=instance).delete()  # Delete all associated tasks
+        instance.delete()  # Delete the category

@@ -39,7 +39,6 @@ class Task(models.Model):
         choices=PRIORITY_CHOICES,
         default='Medium',
     )
-    # category
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     due_date = models.DateField(blank=True, null=True)
