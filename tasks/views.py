@@ -33,7 +33,7 @@ class TaskListView(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     filterset_fields = ['priority', 'status']
     ordering_fields = ['priority', 'due_date', 'status']
-    search_fields = ['title', 'description']
+    search_fields = ['title', 'description', 'category']
 
     def get_queryset(self):
         '''
@@ -92,6 +92,23 @@ class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
         # ensures 'IsOwnerOrReadOnly' is obeyed
         self.check_object_permissions(self.request, obj)
         return obj
+
+    def perform_update(self, serializer):
+        '''
+        Automatically archive tasks when marked as 'Completed'
+        Automatically unarchive tasks when changed from 'Completed'
+        '''
+        task = self.get_object()
+        new_status = self.request.data.get("status")
+
+        # If the new status is "Completed", archive the task
+        if new_status == "Completed":
+            serializer.save(is_archived=True)
+        # If the status is changed from "Completed", unarchive the task
+        elif task.status == "Completed" and new_status != "Completed":
+            serializer.save(is_archived=False)
+        else:
+            serializer.save()
 
 
 class ArchivedTaskListView(generics.ListAPIView):
