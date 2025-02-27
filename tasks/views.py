@@ -33,7 +33,7 @@ class TaskListView(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
     filterset_fields = ['priority', 'status']
     ordering_fields = ['priority', 'due_date', 'status']
-    search_fields = ['title', 'description', 'category']
+    search_fields = ['title', 'description', 'category__name']
 
     def get_queryset(self):
         '''
