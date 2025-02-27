@@ -15,8 +15,8 @@ class CategoryListView(generics.ListCreateAPIView):
     """
     permission_classes = [IsAuthenticated]
     serializer_class = CategorySerializer
-    filter_backends = [SearchFilter] 
-    search_fields = ["name"] 
+    filter_backends = [SearchFilter]
+    search_fields = ["name"]
 
     def get_queryset(self):
         """

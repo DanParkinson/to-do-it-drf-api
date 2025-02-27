@@ -1,8 +1,13 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from drf_api.permissions import IsOwnerOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from .serializers import ProfileSerializer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.contrib.auth import get_user_model
 
+from .serializers import ProfileSerializer
 from .models import Profile
 
 
@@ -39,3 +44,15 @@ class ProfileDetailView(generics.RetrieveUpdateAPIView):
         queryset = self.get_queryset()
         obj = get_object_or_404(queryset, pk=self.kwargs["pk"])
         return obj
+
+
+class DeleteAccountView(APIView):
+    """
+    Allows a logged-in user to permanently delete their account.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request):
+        user = request.user
+        user.delete()
+        return Response({"detail": "Your account has been deleted."}, status=status.HTTP_204_NO_CONTENT)
