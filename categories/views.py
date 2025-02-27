@@ -1,5 +1,6 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.filters import SearchFilter
 from .models import Category
 from .serializers import CategorySerializer
 from drf_api.permissions import IsOwnerOrReadOnly
@@ -14,6 +15,8 @@ class CategoryListView(generics.ListCreateAPIView):
     """
     permission_classes = [IsAuthenticated]
     serializer_class = CategorySerializer
+    filter_backends = [SearchFilter] 
+    search_fields = ["name"] 
 
     def get_queryset(self):
         """
