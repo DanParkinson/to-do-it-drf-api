@@ -119,6 +119,8 @@ class ArchivedTaskListView(generics.ListAPIView):
     '''
     permission_classes = [IsAuthenticated]
     serializer_class = TaskSerializer
+    filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
+    search_fields = ['title', 'description', 'category__name']
 
     def get_queryset(self):
         '''
