@@ -6,6 +6,7 @@ from .serializers import ProfileSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
+from dj_rest_auth.models import TokenModel
 
 from .serializers import ProfileSerializer
 from .models import Profile
@@ -54,5 +55,6 @@ class DeleteAccountView(APIView):
 
     def delete(self, request):
         user = request.user
+        TokenModel.objects.filter(user=user).delete()
         user.delete()
         return Response({"detail": "Your account has been deleted."}, status=status.HTTP_204_NO_CONTENT)
