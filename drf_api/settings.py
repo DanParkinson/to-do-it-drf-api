@@ -113,9 +113,20 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "https://to-do-it-frontend-39b98d526a2a.herokuapp.com",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_HEADERS = [
+    'authorization',
+    'content-type',
+    'accept',
+    'origin',
+    'x-requested-with',
+    'user-agent',
+    'x-csrftoken',
+]
 
 ROOT_URLCONF = 'drf_api.urls'
 
