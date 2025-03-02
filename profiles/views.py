@@ -50,6 +50,7 @@ class ProfileDetailView(generics.RetrieveUpdateAPIView):
 class DeleteAccountView(APIView):
     """
     Allows a logged-in user to permanently delete their account.
+    Not Accessable to users as of yet
     """
     permission_classes = [IsAuthenticated]
 
