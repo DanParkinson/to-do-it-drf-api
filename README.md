@@ -266,7 +266,7 @@ Each user manages **their own tasks and categories**, ensuring privacy.
 
 Below is the **ERD** visualizing these relationships:
 
-![Entity Relationship Diagram](readme_assets\ERD\ERD.png)
+![Entity Relationship Diagram](readme_assets/ERD/ERD.png)
 
 ## **Frameworks, Libraries & Dependencies**
 
